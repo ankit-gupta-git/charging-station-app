@@ -17,19 +17,38 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection with fallback
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/charging-station';
+const MONGODB_URI = 'mongodb+srv://ankitgupta_79:eKJk52Z3Nkz8Ye1r@cluster0.09n5els.mongodb.net/charging-station?retryWrites=true&w=majority';
 console.log('Using MongoDB URI:', MONGODB_URI);
 
+// Remove deprecated options and add better error handling
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Successfully connected to MongoDB.');
+  })
   .catch(err => {
     console.error('MongoDB connection error:', err);
+    if (err.name === 'MongoServerError' && err.code === 8000) {
+      console.error('Authentication failed. Please check your username and password.');
+    }
     console.error('Connection details:', {
       uri: MONGODB_URI,
       env: process.env.NODE_ENV,
       dotenv: process.env.DOTENV_CONFIG_PATH
     });
   });
+
+// Add connection event handlers
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
+});
+
+mongoose.connection.on('reconnected', () => {
+  console.log('MongoDB reconnected');
+});
 
 // Public test endpoint
 app.get('/api/public/stations', (req, res) => {

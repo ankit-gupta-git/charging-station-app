@@ -71,7 +71,7 @@ const handleLogin = async () => {
   try {
     loading.value = true
     error.value = ''
-    const response = await axios.post('http://localhost:4000/api/auth/login', {
+    const response = await axios.post('https://charging-station-app-uh1m.onrender.com/api/auth/login', {
       email: email.value,
       password: password.value
     })

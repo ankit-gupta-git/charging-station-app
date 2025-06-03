@@ -86,7 +86,7 @@ const handleRegister = async () => {
   try {
     loading.value = true
     error.value = ''
-    const response = await axios.post('http://localhost:4000/api/auth/register', {
+    const response = await axios.post('https://charging-station-app-uh1m.onrender.com/api/auth/register', {
       name: name.value,
       email: email.value,
       password: password.value

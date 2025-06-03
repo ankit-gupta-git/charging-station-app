@@ -259,14 +259,14 @@ const fetchStations = async () => {
       return
     }
 
-    const response = await axios.get('http://localhost:4000/api/stations', {
+    const response = await axios.get('https://charging-station-app-uh1m.onrender.com/api/stations', {
       headers: { Authorization: `Bearer ${token}` }
     })
     stations.value = response.data
     error.value = ''
-  } catch (err) {
-    error.value = err.response?.data?.message || 'Error fetching stations'
-    if (err.response?.status === 401) {
+  } catch (error) {
+    console.error('Error fetching stations:', error)
+    if (error.response?.status === 401) {
       router.push('/login')
     }
   }
@@ -287,13 +287,13 @@ const handleSubmit = async () => {
     
     if (editingStation.value) {
       await axios.put(
-        `http://localhost:4000/api/stations/${editingStation.value._id}`,
+        `https://charging-station-app-uh1m.onrender.com/api/stations/${editingStation.value._id}`,
         stationForm.value,
         { headers }
       )
     } else {
       await axios.post(
-        'http://localhost:4000/api/stations',
+        'https://charging-station-app-uh1m.onrender.com/api/stations',
         stationForm.value,
         { headers }
       )
@@ -330,7 +330,7 @@ const deleteStation = async (id) => {
       return
     }
 
-    await axios.delete(`http://localhost:4000/api/stations/${id}`, {
+    await axios.delete(`https://charging-station-app-uh1m.onrender.com/api/stations/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     

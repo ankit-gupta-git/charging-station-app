@@ -117,7 +117,7 @@ const initMap = () => {
 const fetchStations = async () => {
   try {
     // For testing, use the public endpoint
-    const response = await axios.get('http://localhost:4000/api/public/stations')
+    const response = await axios.get('https://charging-station-app-uh1m.onrender.com/api/public/stations')
     stations.value = response.data
     addMarkersToMap()
   } catch (error) {
